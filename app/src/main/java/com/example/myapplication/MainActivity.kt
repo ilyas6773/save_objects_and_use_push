@@ -23,9 +23,9 @@ class MainActivity : AppCompatActivity() {
         databaseReference.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var value = dataSnapshot!!.value
+                var value = dataSnapshot!!.value as HashMap<String, Any>
 
-                Log.d("VALUE: ", value.toString())
+                Log.d("VALUE: ", value.get("name").toString())
             }
 
             override fun onCancelled(error: DatabaseError) {

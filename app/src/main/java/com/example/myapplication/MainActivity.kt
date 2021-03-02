@@ -13,6 +13,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private var mAuth: FirebaseAuth? = null
@@ -26,6 +27,25 @@ class MainActivity : AppCompatActivity() {
         var databaseRef = firebaseDatabase.getReference("messages")
 
         mAuth = FirebaseAuth.getInstance()
+
+        //Create new User
+        var email = emailID.text.toString().trim()
+        var pswrd = PasswordID.text.toString().trim()
+
+        CreateAndroid.setOnClickListener {
+            mAuth!!.createUserWithEmailAndPassword(email,pswrd)
+                .addOnCompleteListener(this,{
+                        task: Task<AuthResult> ->
+                    if (task.isSuccessful){
+                        var user:FirebaseUser=mAuth!!.currentUser!!
+                        Log.d("User", user.email.toString())
+                    }
+                    else{
+                        Log.d("Error",task.toString())
+                    }
+                })
+        }
+
 
         mAuth!!.signInWithEmailAndPassword("vanya_0100@mail.ru", "12345Vanya")
                 .addOnCompleteListener { task: Task<AuthResult> ->
